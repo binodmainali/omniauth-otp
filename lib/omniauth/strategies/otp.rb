@@ -11,6 +11,7 @@ module OmniAuth
 
       def request_phase
         if env["REQUEST_METHOD"] == "GET"
+          send_otp
           get_credentials
         else
           perform
@@ -19,8 +20,12 @@ module OmniAuth
 
       private
 
+      def send_otp
+
+      end
+
       def get_credentials
-        form = OmniAuth::Form.new(:title => "User Info", :url => callback_path)
+        form = OmniAuth::Form.new(:title => "Enter your OTP", :url => callback_path)
         options.fields.each do |field|
           form.text_field field.to_s.capitalize.gsub("_", " "), field.to_s
         end
@@ -33,6 +38,7 @@ module OmniAuth
       end
 
       def perform
+        #Entry point for the data /users/auth/otp
         verifier = OmniAuth::Otp::Verifier.new(options.otp)
         result = verifier.verify!(otp)
 
