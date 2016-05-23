@@ -2,12 +2,11 @@ require 'omniauth/otp'
 require 'omniauth/otp/configuration'
 require 'omniauth/otp/phone_number'
 require 'omniauth/otp/otp_generator'
-require 'omniauth/otp/otp_verifier'
 
 module OmniAuth
   module Otp
     extend OmniAuth::Otp::OtpGenerator
-    
+
     class << self
       attr_accessor :configuration, :phone_number
     end
@@ -38,8 +37,13 @@ module OmniAuth
 
     def self.generate_otp
       phone = OmniAuth::Otp.phone_number.phone
-      build_otp_code(phone)
+      build_otp_code phone
+    end
 
+    def self.verify
+      phone = OmniAuth::Otp.phone_number.phone
+      otp = OmniAuth::Otp.phone_number.otp
+      verify_otp_code phone, otp
     end
   end
 end
