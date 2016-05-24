@@ -36,13 +36,12 @@ module OmniAuth
     end
 
     def self.generate_otp
-      phone = OmniAuth::Otp.phone_number.phone
-      build_otp_code phone
+      build_otp_code @phone.phone
     end
 
     def self.verify
-      phone = OmniAuth::Otp.phone_number.phone
-      otp = OmniAuth::Otp.phone_number.otp
+      phone = @phone.phone
+      otp = @phone.otp
       verify_otp_code phone, otp
     end
   end
